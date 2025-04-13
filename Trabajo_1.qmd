@@ -1,0 +1,125 @@
+---
+title: "Percpecion de Inseguridad Segun Orientacion Politica"
+subtitle: "R para el análisis de datos"
+author: "Tomás Péndola y Erick Quezada"
+date: "2025-04-08"
+lang: es
+format: html
+editor: visual
+---
+
+# Introducción
+
+En el presente trabajo se buscara analizar la percepción de inseguridad según la orientación política con la confianza en los medios, en el clima actual político Chileno donde la polarización aumenta más con los candidatos a presidente en futuras elecciones en una especie de precampaña muchos usan el tema de la seguridad como un elemento que debe atenderse con severidad y con celeridad, creemos que es importante preguntarse ¿Qué tanto incide en el percepciones de inseguridad según la orientación política y la confianza en los medios?
+
+Para este caso, se usaran datos extraidas de la base de datos del ELSOC de la ola del
+
+(Falta Ingresar Citas)
+
+# Variables
+
+En esta caso se usaran las variables orientacion politica (R13_ideol_01), confianza en medios (c05_12) y percecion de Seguridad del barrio (t10)
+
+Pero primero debemos cargar tanto los paquetes de los cuales aremos uso junto
+
+```{r librerias, echo=FALSE, warning=FALSE, message=FALSE, collapse=TRUE}
+
+library(pacman)
+pacman::p_load(tidyverse,   # manipulacion datos
+               sjPlot,      # tablas
+               confintr,    # IC
+               gginference, # visualizacion 
+               rempsyc,     # reporte
+               broom,       # varios
+               sjmisc,      # para descriptivos 
+               knitr,
+               haven)            
+
+options(scipen = 999) # para desactivar notacion cientifica
+rm(list = ls()) # para limpiar el entorno de trabajo
+```
+
+Esto lo podemos repetir para la carga de la base de datos y el procesamiento de los datos.
+
+```{r datos, echo=FALSE, warning=FALSE, message=FALSE}
+
+ELSOC_Long_2016_2023 <- read_sav("C:/Users/Tomás/OneDrive/Documentos/Trabajo_1/input/ELSOC_Long_2016_2023.sav")
+
+ELSOC_2022_Limitada <- ELSOC_Long_2016_2023 %>% select(r13_ideol_01, # orientacion politica
+                          c05_12, # Confianza en los medios
+                          t10) # percecion de Seguridad del barrio
+                
+names(ELSOC_2022_Limitada)
+```
+
+Ahora con la base datos abierta procederemos a describr las variables que se usaran para este trabajo
+
+## Descripción de variables
+
+En este caso, se seleccionaron las variables:
+
+-   r13_ideol_01: Sector idiologico con el que se identifica el encuestado
+
+```{r Operacionlizacion de r13_ideol_01, echo=FALSE, warning=FALSE, message=FALSE}
+
+frq(ELSOC_2022_Limitada$r13_ideol_01)
+
+
+ELSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
+  mutate(r13_ideol_01 = na_if(r13_ideol_01, -999),
+         r13_ideol_01 = na_if(r13_ideol_01, -888),
+         r13_ideol_01 = na_if(r13_ideol_01, -777),
+         r13_ideol_01 = na_if(r13_ideol_01, -666))
+
+```
+
+-   c05_12: edad del encuestado, con nivel de medición intervalar
+
+```{r Operacionlizacion de c05_12, echo=FALSE, warning=FALSE, message=FALSE}
+
+frq(ELSOC_2022_Limitada$c05_12)
+
+ELSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
+  mutate(c05_12 = na_if(c05_12, -999),
+         c05_12 = na_if(c05_12, -888),
+         c05_12 = na_if(c05_12, -777),
+         c05_12 = na_if(c05_12, -666))
+
+```
+
+-   t10: nivel educativo del encuestado, con nivel de medición ordinal
+
+```{r Operacionlizacion de t10, echo=FALSE, warning=FALSE, message=FALSE}
+
+frq(ELSOC_2022_Limitada$t10)
+
+ELSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
+  mutate(t10 = na_if(t10, -999),
+         t10 = na_if(t10, -888),
+         t10 = na_if(t10, -777),
+         t10 = na_if(t10, -666))
+
+```
+
+```{r, Tabla n°1, echo=FALSE, warning=FALSE, message=FALSE}
+
+tab1 <- data %>%
+  group_by(as.factor(r13_ideol_01)) %>% # agrupamos por Ideologia Politica
+  summarise(n = n()) %>% # contamos por categ de respuesta
+  mutate(prop = round((n / sum(n)) * 100, 2)) # porcentaje
+
+tabla1 <- tab1 %>% 
+  kableExtra::kable(format = "html",
+                    align = "c",
+                    col.names = c("Ideologia Politica", "n", "Proporción"),
+                    caption = "Tabla 1. Distribución de Ideologia Politica") %>% 
+  kableExtra::kable_classic(full_width = FALSE, position = "center", font_size = 14) %>% 
+  kableExtra::add_footnote(label = "Fuente: Elaboración propia en base a ELSOC 2016.")
+```
+
+En la @tbl-sexo podemos ver que la proporción de mujeres que responde la encuesta corresponde a `r pm`%, mientras que la propoción de hombres corresponde a `r ph`%.
+
+```{r tbl-sexo, echo=FALSE, warning=FALSE, message=FALSE} #| label: tbl-sexo #| tbl-cap: "Distribución de sexo" #| tbl-cap-location: top #| warning: false tabla1}
+```
+
+# Análisis
