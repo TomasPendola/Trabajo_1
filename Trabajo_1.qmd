@@ -33,7 +33,9 @@ pacman::p_load(tidyverse,   # manipulacion datos
                broom,       # varios
                sjmisc,      # para descriptivos 
                knitr,
-               haven)            
+               haven,
+               kableExtra,
+               stargazer)            
 
 options(scipen = 999) # para desactivar notacion cientifica
 rm(list = ls()) # para limpiar el entorno de trabajo
@@ -48,8 +50,6 @@ ELSOC_Long_2016_2023 <- read_sav("C:/Users/Tomás/OneDrive/Documentos/Trabajo_1/
 ELSOC_2022_Limitada <- ELSOC_Long_2016_2023 %>% select(r13_ideol_01, # orientacion politica
                           c05_12, # Confianza en los medios
                           t10) # percecion de Seguridad del barrio
-                
-names(ELSOC_2022_Limitada)
 ```
 
 Ahora con la base datos abierta procederemos a describr las variables que se usaran para este trabajo
@@ -62,8 +62,6 @@ En este caso, se seleccionaron las variables:
 
 ```{r Operacionlizacion de r13_ideol_01, echo=FALSE, warning=FALSE, message=FALSE}
 
-frq(ELSOC_2022_Limitada$r13_ideol_01)
-
 
 ELSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
   mutate(r13_ideol_01 = na_if(r13_ideol_01, -999),
@@ -71,13 +69,33 @@ ELSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
          r13_ideol_01 = na_if(r13_ideol_01, -777),
          r13_ideol_01 = na_if(r13_ideol_01, -666))
 
+
+ELSOC_2022_Limitada$r13_ideol_01 <- car::recode(ELSOC_2022_Limitada$r13_ideol_01, "c(1,2)=1; c(3)=2; c(4,5)=3; c(6)=4") #Se recodifica para hacer mas facil analisis estableciendo agrupando Centro derecha y derecha como uno solo, lo mismo para Izquierda, dejadno solos centro y ninguno
+
+ELSOC_2022_Limitada$r13_ideol_01 <- factor(ELSOC_2022_Limitada$r13_ideol_01,
+            labels=c( "Derecha",
+                      "Centro",
+                      "Izquierda",
+                      "Ninguno"),
+            levels=c(1,2,3,4))
 ```
 
--   c05_12: edad del encuestado, con nivel de medición intervalar
+Ahora se hara una tablade frecuencias para esta variable categorica
+
+```{r Tabla de Frecuencia de r13_ideol_01, echo=FALSE, warning=FALSE, message=FALSE}
+
+tabla <- ELSOC_2022_Limitada %>%
+  count(r13_ideol_01) %>%
+  mutate(Porcentaje = round(100 * n / sum(n), 2))
+
+tabla %>%
+  kable("html", caption = "Tabla de Frecuencias de r13_ideol_01") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+```
+
+-   c05_12: Grado de Confianza: en los medios de comunicacion tradicionales
 
 ```{r Operacionlizacion de c05_12, echo=FALSE, warning=FALSE, message=FALSE}
-
-frq(ELSOC_2022_Limitada$c05_12)
 
 ELSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
   mutate(c05_12 = na_if(c05_12, -999),
@@ -85,13 +103,13 @@ ELSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
          c05_12 = na_if(c05_12, -777),
          c05_12 = na_if(c05_12, -666))
 
+frq(ELSOC_2022_Limitada$t10)
+
 ```
 
--   t10: nivel educativo del encuestado, con nivel de medición ordinal
+-   t10: Percepcion de seguridad del barrio
 
-```{r Operacionlizacion de t10, echo=FALSE, warning=FALSE, message=FALSE}
-
-frq(ELSOC_2022_Limitada$t10)
+```{r, Operacionlizacion de t10, echo=FALSE, warning=FALSE, message=FALSE}
 
 ELSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
   mutate(t10 = na_if(t10, -999),
@@ -99,27 +117,89 @@ ELSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
          t10 = na_if(t10, -777),
          t10 = na_if(t10, -666))
 
+frq(ELSOC_2022_Limitada$t10)
+
+```
+
+igualmente se armara una tabla de descriptivos de las variables lineares para
+
+```{r, tabla de descriptivos de variables lineares, echo=FALSE, warning=FALSE, message=FALSE}
+
+ELSOC_2022_Limitada <-as.data.frame(ELSOC_2022_Limitada)
+stargazer(ELSOC_2022_Limitada, type="text")
 ```
 
 ```{r, Tabla n°1, echo=FALSE, warning=FALSE, message=FALSE}
 
-tab1 <- data %>%
-  group_by(as.factor(r13_ideol_01)) %>% # agrupamos por Ideologia Politica
-  summarise(n = n()) %>% # contamos por categ de respuesta
-  mutate(prop = round((n / sum(n)) * 100, 2)) # porcentaje
+sjt.xtab(ELSOC_2022_Limitada$r13_ideol_01, ELSOC_2022_Limitada$c05_12, encoding = "UTF-8")
 
-tabla1 <- tab1 %>% 
-  kableExtra::kable(format = "html",
-                    align = "c",
-                    col.names = c("Ideologia Politica", "n", "Proporción"),
-                    caption = "Tabla 1. Distribución de Ideologia Politica") %>% 
-  kableExtra::kable_classic(full_width = FALSE, position = "center", font_size = 14) %>% 
-  kableExtra::add_footnote(label = "Fuente: Elaboración propia en base a ELSOC 2016.")
 ```
 
-En la @tbl-sexo podemos ver que la proporción de mujeres que responde la encuesta corresponde a `r pm`%, mientras que la propoción de hombres corresponde a `r ph`%.
+```{r Grafico n°1 Orientacion politica, echo=FALSE, warning=FALSE, message=FALSE}
 
-```{r tbl-sexo, echo=FALSE, warning=FALSE, message=FALSE} #| label: tbl-sexo #| tbl-cap: "Distribución de sexo" #| tbl-cap-location: top #| warning: false tabla1}
+
+graph1 <- ELSOC_2022_Limitada %>% ggplot(aes(x = r13_ideol_01)) + 
+  geom_bar(fill = "springgreen4")+
+  labs(title = "Confianza en instituciones",
+       x = "Confianza en instituciones",
+       y = "Frecuencia") +
+  theme_bw()
+
+graph1
+```
+
+```{r Grafico n°2 Confianza en los Medios Tracionales, echo=FALSE, warning=FALSE, message=FALSE}
+
+graph2 <- ELSOC_2022_Limitada %>% ggplot(aes(x = c05_12)) + 
+  geom_bar(fill = "#CD0000")+
+  labs(title = "Confianza en Medios de comunicacion tradicionales",
+       x = "Confianza en Medios de comunicacion tradicionales",
+       y = "Frecuencia") +
+  theme_bw()
+
+graph2
+```
+
+```{r Grafico_n3_Percepcion_seguridad_barrio, echo=FALSE, warning=FALSE, message=FALSE}
+
+graph3 <- ELSOC_2022_Limitada %>% ggplot(aes(x = t10)) + 
+  geom_bar(fill = "#008B8B")+
+  labs(title = "Percepcion de seguridad en el barrio",
+       x = "Percepcion de seguridad en el barrio",
+       y = "Frecuencia") +
+  theme_bw()
+
+graph3
+```
+
+```{r Grafico n°4 Ideologia x confiazna, echo=FALSE, warning=FALSE, message=FALSE}
+
+
+
+ggplot(ELSOC_2022_Limitada, aes(x = as.factor(r13_ideol_01), y = c05_12)) +
+  geom_boxplot(fill = "skyblue") +
+  labs(
+    x = "Ideología política",
+    y = "Cofianza en los medios de comunicacion tradiconales",
+    title = "Distribución de Ideologia politica según Cofianza en los medios de comunicacion"
+  ) +
+  theme_minimal()
+
+```
+
+```{r Grafico n°5 confiaza x perp de confiaza en el barrrio,echo=FALSE, warning=FALSE, message=FALSE}
+
+ggplot(ELSOC_2022_Limitada, aes(x = c05_12, y = t10)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(
+    x = "Cofianza en los medios de comunicacion tradiconales",
+    y = "Percepcion de seguridad en el barrio",
+    title = "Relación entre Confianza en los medios y Percepcion de seguiridad en el barrio"
+  ) +
+  theme_minimal()
+
+
 ```
 
 # Análisis
