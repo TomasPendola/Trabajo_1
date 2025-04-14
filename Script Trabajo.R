@@ -1,29 +1,3 @@
----
-title: "Percepcion de Inseguridad Segun Orientacion Politica"
-subtitle: "R para el análisis de datos"
-author: "Tomás Péndola y Erick Quezada"
-date: "2025-04-08"
-lang: es
-format: html
-editor: visual
----
-
-# Introducción
-
-En el presente trabajo se buscara analizar la percepción de inseguridad según la orientación política con la confianza en los medios, en el clima actual político Chileno donde la polarización aumenta más con los candidatos a presidente en futuras elecciones en una especie de precampaña muchos usan el tema de la seguridad como un elemento que debe atenderse con severidad y con celeridad, creemos que es importante preguntarse ¿Qué tanto incide en el percepciones de inseguridad según la orientación política y la confianza en los medios?
-
-Para este caso, se usaran datos extraidas de la base de datos del ELSOC de la ola del
-
-(Falta Ingresar Citas)
-
-# Variables
-
-En esta caso se usaran las variables orientacion politica (R13_ideol_01), confianza en medios (c05_12) y percecion de Seguridad del barrio (t10)
-
-Pero primero debemos cargar tanto los paquetes de los cuales aremos uso junto
-
-```{r librerias, echo=FALSE, warning=FALSE, message=FALSE, collapse=TRUE}
-
 library(pacman)
 pacman::p_load(tidyverse,   # manipulacion datos
                sjPlot,      # tablas
@@ -40,28 +14,15 @@ pacman::p_load(tidyverse,   # manipulacion datos
 
 options(scipen = 999) # para desactivar notacion cientifica
 rm(list = ls()) # para limpiar el entorno de trabajo
-```
 
-Esto lo podemos repetir para la carga de la base de datos y el procesamiento de los datos.
 
-```{r datos, echo=FALSE, warning=FALSE, message=FALSE}
 
 ELSOC_Long_2016_2023 <- read_dta("C:/Users/Tomás/OneDrive/Documentos/Trabajo_1/input/ELSOC_Long_2016_2023.dta")
 
 ELSOC_2022_Limitada <- ELSOC_Long_2016_2023 %>% select(r13_ideol_01, # orientacion politica
-                          c05_12, # Confianza en los medios
-                          t10) # percecion de Seguridad del barrio
-```
+                                                       c05_12, # Confianza en los medios
+                                                       t10) # percecion de Seguridad del barrio
 
-Ahora con la base datos abierta procederemos a describr las variables que se usaran para este trabajo
-
-## Descripción de variables
-
-En este caso, se seleccionaron las variables:
-
--r13_ideol_01: Sector idiologico con el que se identifica el encuestado
-
-```{r Operacionlizacion de r13_ideol_01, echo=FALSE, warning=FALSE, message=FALSE}
 
 
 ELSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
@@ -73,17 +34,15 @@ ELSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
 
 ELSOC_2022_Limitada$r13_ideol_01 <- car::recode(ELSOC_2022_Limitada$r13_ideol_01, "c(1,2)=1; c(3)=2; c(4,5)=3; c(6)=4") #Se recodifica para hacer mas facil analisis estableciendo agrupando Centro derecha y derecha como uno solo, lo mismo para Izquierda, dejadno solos centro y ninguno
 
+
 ELSOC_2022_Limitada$r13_ideol_01 <- factor(ELSOC_2022_Limitada$r13_ideol_01,
-            labels=c( "Derecha",
-                      "Centro",
-                      "Izquierda",
-                      "Ninguno"),
-            levels=c(1,2,3,4))
-```
+                                           labels=c( "Derecha",
+                                                     "Centro",
+                                                     "Izquierda",
+                                                     "Ninguno"),
+                                           levels=c(1,2,3,4))
 
-Ahora se hara una tabla de frecuencias para esta variable categorica
 
-```{r Tabla de Frecuencia de r13_ideol_01, echo=FALSE, warning=FALSE, message=FALSE}
 
 tabla <- ELSOC_2022_Limitada %>%
   count(r13_ideol_01) %>%
@@ -92,11 +51,9 @@ tabla <- ELSOC_2022_Limitada %>%
 tabla %>%
   kable("html", caption = "Tabla de Frecuencias de r13_ideol_01") %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
-```
 
--   c05_12: Grado de Confianza: en los medios de comunicacion tradicionales
 
-```{r Operacionlizacion de c05_12, echo=FALSE, warning=FALSE, message=FALSE}
+
 
 ELSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
   mutate(c05_12 = na_if(c05_12, -999),
@@ -106,13 +63,9 @@ ELSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
 
 frq(ELSOC_2022_Limitada$t10)
 
-```
 
--   t10: Percepcion de seguridad del barrio
 
-```{r, Operacionlizacion de t10, echo=FALSE, warning=FALSE, message=FALSE}
-
-ELSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
+LSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
   mutate(t10 = na_if(t10, -999),
          t10 = na_if(t10, -888),
          t10 = na_if(t10, -777),
@@ -120,13 +73,7 @@ ELSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
 
 frq(ELSOC_2022_Limitada$t10)
 
-```
 
-igualmente se armara una tabla de descriptivos de las variables lineares
-
-Iniciamos con la Variable de Grao de Confianza en los Medios de Comunicacion
-
-```{r, tabla de descriptivos de variable c05_12, echo=FALSE, warning=FALSE, message=FALSE}
 
 # Tabla de frecuencia para c05_12
 tabla_freq <- ELSOC_2022_Limitada %>%
@@ -136,12 +83,6 @@ tabla_freq <- ELSOC_2022_Limitada %>%
 # Mostrar tabla con formato limpio
 kable(tabla_freq, caption = "Tabla de Frecuencia de Confianza en los Medios de Comunicacion")
 
-
-```
-
-Ahora hacemos lo mismo con la variable de Percepcion de inseguridad en el Barrio
-
-```{r, tabla de descriptivos de variable t10, echo=FALSE, warning=FALSE, message=FALSE}
 
 # Tabla de frecuencia para t10
 tabla_freq2 <- ELSOC_2022_Limitada %>%
@@ -153,10 +94,6 @@ kable(tabla_freq2, caption = "Tabla de Frecuencia de Percepcion de Seguridad en 
 
 
 
-```
-
-```{r Grafico n°1 Orientacion politica, echo=FALSE, warning=FALSE, message=FALSE}
-
 
 graph1 <- ELSOC_2022_Limitada %>% ggplot(aes(x = r13_ideol_01)) + 
   geom_bar(fill = "springgreen4")+
@@ -166,9 +103,8 @@ graph1 <- ELSOC_2022_Limitada %>% ggplot(aes(x = r13_ideol_01)) +
   theme_bw()
 
 graph1
-```
 
-```{r Grafico n°2 Confianza en los Medios Tracionales, echo=FALSE, warning=FALSE, message=FALSE}
+
 
 graph2 <- ELSOC_2022_Limitada %>% ggplot(aes(x = c05_12)) + 
   geom_bar(fill = "#CD0000")+
@@ -178,9 +114,8 @@ graph2 <- ELSOC_2022_Limitada %>% ggplot(aes(x = c05_12)) +
   theme_bw()
 
 graph2
-```
 
-```{r Grafico_n3_Percepcion_seguridad_barrio, echo=FALSE, warning=FALSE, message=FALSE}
+
 
 graph3 <- ELSOC_2022_Limitada %>% ggplot(aes(x = t10)) + 
   geom_bar(fill = "#008B8B")+
@@ -190,9 +125,8 @@ graph3 <- ELSOC_2022_Limitada %>% ggplot(aes(x = t10)) +
   theme_bw()
 
 graph3
-```
 
-```{r Grafico n°4 Ideologia x confiazna, echo=FALSE, warning=FALSE, message=FALSE}
+
 
 ggplot(ELSOC_2022_Limitada, aes(x = as.factor(r13_ideol_01), y = c05_12)) +
   geom_boxplot(fill = "skyblue") +
@@ -203,9 +137,7 @@ ggplot(ELSOC_2022_Limitada, aes(x = as.factor(r13_ideol_01), y = c05_12)) +
   ) +
   theme_minimal()
 
-```
 
-```{r Grafico n°5 confiaza x perp de confiaza en el barrrio,echo=FALSE, warning=FALSE, message=FALSE}
 
 ggplot(ELSOC_2022_Limitada, aes(x = c05_12, y = t10)) +
   geom_point(alpha = 0.5) +
@@ -218,6 +150,3 @@ ggplot(ELSOC_2022_Limitada, aes(x = c05_12, y = t10)) +
   theme_minimal()
 
 
-```
-
-# Análisis
