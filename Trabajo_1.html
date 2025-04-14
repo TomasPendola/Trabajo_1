@@ -95,10 +95,8 @@ ul.task-list li input[type="checkbox"] {
 <section id="descripción-de-variables" class="level2">
 <h2 class="anchored" data-anchor-id="descripción-de-variables">Descripción de variables</h2>
 <p>En este caso, se seleccionaron las variables:</p>
-<ul>
-<li>r13_ideol_01: Sector idiologico con el que se identifica el encuestado</li>
-</ul>
-<p>Ahora se hara una tablade frecuencias para esta variable categorica</p>
+<p>-r13_ideol_01: Sector idiologico con el que se identifica el encuestado</p>
+<p>Ahora se hara una tabla de frecuencias para esta variable categorica</p>
 <div class="cell">
 <div class="cell-output-display">
 <div class="table-responsive">
@@ -188,88 +186,113 @@ Value |                                 Label |    N | Raw % | Valid % | Cum. %
  &lt;NA&gt; |                                  &lt;NA&gt; | 1194 |  5.75 |    &lt;NA&gt; |   &lt;NA&gt;</code></pre>
 </div>
 </div>
-<p>igualmente se armara una tabla de descriptivos de las variables lineares para</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>
-=======================================
-Statistic   N    Mean  St. Dev. Min Max
----------------------------------------
-c05_12    4,907  2.307  1.064    1   5 
-t10       19,567 3.476  1.026    1   5 
----------------------------------------</code></pre>
-</div>
-</div>
+<p>igualmente se armara una tabla de descriptivos de las variables lineares</p>
+<p>Iniciamos con la Variable de Grao de Confianza en los Medios de Comunicacion</p>
 <div class="cell">
 <div class="cell-output-display">
-<table style="border-collapse:collapse; border:none;">
- <tbody><tr>
- <th style="border-top:double; text-align:center; font-style:italic; font-weight:normal; border-bottom:1px solid;" rowspan="2">r13_ideol_01</th>
- <th style="border-top:double; text-align:center; font-style:italic; font-weight:normal;" colspan="5">Grado de confianza:<br>Medios de<br>comunicacion<br>tradicionales</th>
- <th style="border-top:double; text-align:center; font-style:italic; font-weight:normal; font-weight:bolder; font-style:italic; border-bottom:1px solid; " rowspan="2">Total</th>
- </tr>
- 
-<tr>
- <td style="border-bottom:1px solid; text-align:center; padding:0.2cm;">Nada</td>
- <td style="border-bottom:1px solid; text-align:center; padding:0.2cm;">Poca</td>
- <td style="border-bottom:1px solid; text-align:center; padding:0.2cm;">Algo</td>
- <td style="border-bottom:1px solid; text-align:center; padding:0.2cm;">Bastante</td>
- <td style="border-bottom:1px solid; text-align:center; padding:0.2cm;">Mucha</td>
- </tr>
- 
-<tr> 
-<td style="padding:0.2cm;  text-align:left; vertical-align:middle;">Derecha</td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">130</span></td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">162</span></td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">181</span></td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">53</span></td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">6</span></td>
-<td style="padding:0.2cm; text-align:center;  "><span style="color:black;">532</span></td> 
+<table class="caption-top table table-sm table-striped small">
+<caption>Tabla de Frecuencia de Confianza en los Medios de Comunicacion</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">c05_12</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: left;">percent</th>
+<th style="text-align: left;">valid_percent</th>
 </tr>
- 
-<tr> 
-<td style="padding:0.2cm;  text-align:left; vertical-align:middle;">Centro</td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">84</span></td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">87</span></td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">86</span></td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">21</span></td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">7</span></td>
-<td style="padding:0.2cm; text-align:center;  "><span style="color:black;">285</span></td> 
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1350</td>
+<td style="text-align: left;">6.50%</td>
+<td style="text-align: left;">27.51%</td>
 </tr>
- 
-<tr> 
-<td style="padding:0.2cm;  text-align:left; vertical-align:middle;">Izquierda</td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">234</span></td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">239</span></td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">183</span></td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">48</span></td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">16</span></td>
-<td style="padding:0.2cm; text-align:center;  "><span style="color:black;">720</span></td> 
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1462</td>
+<td style="text-align: left;">7.04%</td>
+<td style="text-align: left;">29.79%</td>
 </tr>
- 
-<tr> 
-<td style="padding:0.2cm;  text-align:left; vertical-align:middle;">Ninguno</td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">668</span></td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">679</span></td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">674</span></td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">218</span></td>
-<td style="padding:0.2cm; text-align:center; "><span style="color:black;">76</span></td>
-<td style="padding:0.2cm; text-align:center;  "><span style="color:black;">2315</span></td> 
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1480</td>
+<td style="text-align: left;">7.13%</td>
+<td style="text-align: left;">30.16%</td>
 </tr>
- 
-<tr> 
-<td style="padding:0.2cm;  border-bottom:double; font-weight:bolder; font-style:italic; text-align:left; vertical-align:middle;">Total</td>
-<td style="padding:0.2cm; text-align:center;   border-bottom:double;"><span style="color:black;">1116</span></td>
-<td style="padding:0.2cm; text-align:center;   border-bottom:double;"><span style="color:black;">1167</span></td>
-<td style="padding:0.2cm; text-align:center;   border-bottom:double;"><span style="color:black;">1124</span></td>
-<td style="padding:0.2cm; text-align:center;   border-bottom:double;"><span style="color:black;">340</span></td>
-<td style="padding:0.2cm; text-align:center;   border-bottom:double;"><span style="color:black;">105</span></td>
-<td style="padding:0.2cm; text-align:center;   border-bottom:double;"><span style="color:black;">3852</span></td> 
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">470</td>
+<td style="text-align: left;">2.26%</td>
+<td style="text-align: left;">9.58%</td>
 </tr>
-<tr><td style="text-align:right; font-size:0.9em; font-style:italic; padding:0.2cm;" colspan="7">χ<sup>2</sup>=32.044 · df=12 · Cramer's V=0.053 · p=0.001</td> 
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">145</td>
+<td style="text-align: left;">0.70%</td>
+<td style="text-align: left;">2.95%</td>
 </tr>
- 
-</tbody></table>
+<tr class="even">
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">15854</td>
+<td style="text-align: left;">76.36%</td>
+<td style="text-align: left;">-</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Ahora hacemos lo mismo con la variable de Percepcion de inseguridad en el Barrio</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Tabla de Frecuencia de Percepcion de Seguridad en el barrio</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">t10</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: left;">percent</th>
+<th style="text-align: left;">valid_percent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">919</td>
+<td style="text-align: left;">4.43%</td>
+<td style="text-align: left;">4.70%</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2919</td>
+<td style="text-align: left;">14.06%</td>
+<td style="text-align: left;">14.92%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3843</td>
+<td style="text-align: left;">18.51%</td>
+<td style="text-align: left;">19.64%</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">9696</td>
+<td style="text-align: left;">46.70%</td>
+<td style="text-align: left;">49.55%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">2190</td>
+<td style="text-align: left;">10.55%</td>
+<td style="text-align: left;">11.19%</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1194</td>
+<td style="text-align: left;">5.75%</td>
+<td style="text-align: left;">-</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="cell">

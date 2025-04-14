@@ -35,7 +35,8 @@ pacman::p_load(tidyverse,   # manipulacion datos
                knitr,
                haven,
                kableExtra,
-               stargazer)            
+               stargazer,
+               janitor)            
 
 options(scipen = 999) # para desactivar notacion cientifica
 rm(list = ls()) # para limpiar el entorno de trabajo
@@ -45,7 +46,7 @@ Esto lo podemos repetir para la carga de la base de datos y el procesamiento de 
 
 ```{r datos, echo=FALSE, warning=FALSE, message=FALSE}
 
-ELSOC_Long_2016_2023 <- read_sav("C:/Users/Tomás/OneDrive/Documentos/Trabajo_1/input/ELSOC_Long_2016_2023.sav")
+ELSOC_Long_2016_2023 <- read_dta("C:/Users/Tomás/OneDrive/Documentos/Trabajo_1/input/ELSOC_Long_2016_2023.dta")
 
 ELSOC_2022_Limitada <- ELSOC_Long_2016_2023 %>% select(r13_ideol_01, # orientacion politica
                           c05_12, # Confianza en los medios
@@ -58,7 +59,7 @@ Ahora con la base datos abierta procederemos a describr las variables que se usa
 
 En este caso, se seleccionaron las variables:
 
--   r13_ideol_01: Sector idiologico con el que se identifica el encuestado
+-r13_ideol_01: Sector idiologico con el que se identifica el encuestado
 
 ```{r Operacionlizacion de r13_ideol_01, echo=FALSE, warning=FALSE, message=FALSE}
 
@@ -80,7 +81,7 @@ ELSOC_2022_Limitada$r13_ideol_01 <- factor(ELSOC_2022_Limitada$r13_ideol_01,
             levels=c(1,2,3,4))
 ```
 
-Ahora se hara una tablade frecuencias para esta variable categorica
+Ahora se hara una tabla de frecuencias para esta variable categorica
 
 ```{r Tabla de Frecuencia de r13_ideol_01, echo=FALSE, warning=FALSE, message=FALSE}
 
@@ -121,17 +122,36 @@ frq(ELSOC_2022_Limitada$t10)
 
 ```
 
-igualmente se armara una tabla de descriptivos de las variables lineares para
+igualmente se armara una tabla de descriptivos de las variables lineares
 
-```{r, tabla de descriptivos de variables lineares, echo=FALSE, warning=FALSE, message=FALSE}
+Iniciamos con la Variable de Grao de Confianza en los Medios de Comunicacion
 
-ELSOC_2022_Limitada <-as.data.frame(ELSOC_2022_Limitada)
-stargazer(ELSOC_2022_Limitada, type="text")
+```{r, tabla de descriptivos de variable c05_12, echo=FALSE, warning=FALSE, message=FALSE}
+
+# Tabla de frecuencia para c05_12
+tabla_freq <- ELSOC_2022_Limitada %>%
+  tabyl(c05_12) %>%
+  adorn_pct_formatting(digits = 2)
+
+# Mostrar tabla con formato limpio
+kable(tabla_freq, caption = "Tabla de Frecuencia de Confianza en los Medios de Comunicacion")
+
+
 ```
 
-```{r, Tabla n°1, echo=FALSE, warning=FALSE, message=FALSE}
+Ahora hacemos lo mismo con la variable de Percepcion de inseguridad en el Barrio
 
-sjt.xtab(ELSOC_2022_Limitada$r13_ideol_01, ELSOC_2022_Limitada$c05_12, encoding = "UTF-8")
+```{r, tabla de descriptivos de variable t10, echo=FALSE, warning=FALSE, message=FALSE}
+
+# Tabla de frecuencia para t10
+tabla_freq2 <- ELSOC_2022_Limitada %>%
+  tabyl(t10) %>%
+  adorn_pct_formatting(digits = 2)
+
+# Mostrar tabla con formato limpio
+kable(tabla_freq2, caption = "Tabla de Frecuencia de Percepcion de Seguridad en el barrio")
+
+
 
 ```
 
