@@ -6,6 +6,7 @@ date: "2025-04-08"
 lang: es
 format: html
 editor: visual
+bibliography: references.bib
 ---
 
 # Introducción
@@ -14,9 +15,9 @@ En el contexto actual chileno, donde nos acercamos a las próximas elecciones pr
 
 En este escenario, decidimos investigar una de las mayores preocupaciones de la ciudadanía. Tal como indica el estudio *Preocupaciones del Mundo* de la empresa de investigación Ipsos (2024), el sondeo arrojó que en Chile el tema del crimen y la violencia lidera la lista de preocupaciones con un 69%.
 
-Chile lleva tiempo enfrentando un drama importante en torno a este tópico, lo que se refleja en la amplia literatura existente, especialmente desde enfoques que lo abordan mediante variables sociodemográficas. Sin embargo, retomando el actual contexto electoral, nos interesa en particular analizar la incidencia de los medios de comunicación tradicionales, los cuales se encargan de divulgar las agendas de los candidatos y que, estos no solo informan sino que también ayudan a construir marcos interpretativos de la realidad desde una posicion aventajada (Van Djik, 2016). Al mismo tiempo, buscamos entender cómo se articula esta percepción de inseguridad en relación con la tendencia política de la ciudadanía.
+Chile lleva tiempo enfrentando un drama importante en torno a este tópico, lo que se refleja en la amplia literatura existente, especialmente desde enfoques que lo abordan mediante variables sociodemográficas. Sin embargo, retomando el actual contexto electoral, nos interesa en particular analizar la incidencia de los medios de comunicación tradicionales, los cuales se encargan de divulgar las agendas de los candidatos y que, estos no solo informan sino que también ayudan a construir marcos interpretativos de la realidad desde una posicion aventajada [@teuna.vandijk2016]. Al mismo tiempo, buscamos entender cómo se articula esta percepción de inseguridad en relación con la tendencia política de la ciudadanía.
 
-Al respecto, autores como Medina (2003) han señalado que aparentemente existe una relación directa entre poseer una posición más de derecha y el miedo al delito (p. 11). Sin embargo, esta relación no implica necesariamente una causalidad, sino que podría estar enmarcada en un concepto más complejo de “percepción emocional”. Tal como indican Muratori y Zubieta (2015), la tendencia política influye en un conjunto de percepciones que terminan delegando en “problemáticas de relevancia social, como la inseguridad y el miedo al delito” (p. 17).
+Al respecto, autores como [@juanjomedina2003] han señalado que aparentemente existe una relación directa entre poseer una posición más de derecha y el miedo al delito (p. 11). Sin embargo, esta relación no implica necesariamente una causalidad, sino que podría estar enmarcada en un concepto más complejo de “percepción emocional”. Tal como indican [@marcelamuratori2015], la tendencia política influye en un conjunto de percepciones que terminan delegando en “problemáticas de relevancia social, como la inseguridad y el miedo al delito” (p. 17).
 
 Es por ello que el presente trabajo buscará analizar la percepción de inseguridad según la orientación política y la confianza en los medios. Esto, enmarcado en el clima político actual chileno, donde la polarización entre los sectores políticos aumenta de cara a las próximas elecciones presidenciales. Por otro lado, en esta suerte de precampaña, muchos discursos mediáticos ofrecidos por los candidatos han puesto especial foco en el tema de la seguridad, presentándolo como un asunto que debe ser atendido cuanto antes. Consideramos, entonces, relevante comprender qué tanto inciden en la percepción de inseguridad variables como la orientación política y la confianza en los medios de comunicación, ya que planteamos como hipótesis que aquellos encuestados con una mayor tendencia política hacia la derecha y con niveles más altos de confianza en los medios tenderán a mantener mayores niveles de percepción de inseguridad.
 
@@ -123,13 +124,27 @@ Ahora se hara una tabla de frecuencias para esta variable categorica
 
 ```{r Tabla de Frecuencia de r13_ideol_01, echo=FALSE, warning=FALSE, message=FALSE}
 
+# Crear tabla con totales
 tabla <- ELSOC_2022_Limitada %>%
   count(r13_ideol_01) %>%
-  mutate(Porcentaje = round(100 * n / sum(n), 2))
+  mutate(Porcentaje = round(100 * n / sum(n), 2),
+         r13_ideol_01 = as.character(r13_ideol_01))  # convertir a texto
 
-tabla %>%
-  kable("html", caption = "Tabla de Frecuencias de r13_ideol_01") %>%
+# Crear la fila de Total
+tabla_total <- tabla %>%
+  summarise(r13_ideol_01 = "Total",
+            n = sum(n),
+            Porcentaje = round(sum(Porcentaje), 2))
+
+# Unir la tabla con la fila de Total
+tabla_final <- bind_rows(tabla, tabla_total)
+
+# Mostrar tabla con estilo
+tabla_final %>%
+  kable("html", caption = "Tabla de Frecuencias de Ideologia Politica con Total") %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+
+
 ```
 
 -   c05_12: Grado de Confianza: en los medios de comunicacion tradicionales
@@ -193,7 +208,7 @@ graph1
 ```{r Grafico n°2 Confianza en los Medios Tracionales, echo=FALSE, warning=FALSE, message=FALSE}
 
 graph2 <- ELSOC_2022_Limitada %>% ggplot(aes(x = c05_12)) + 
-  geom_bar(fill = "#CD0000")+
+  geom_bar(fill = "#cb0f22")+
   labs(title = "Confianza en Medios de comunicacion tradicionales",
        x = "Confianza en Medios de comunicacion tradicionales",
        y = "Frecuencia") +
@@ -229,4 +244,12 @@ ggplot(ELSOC_2022_Limitada, aes(x = as.factor(r13_ideol_01), y = c05_12)) +
 
 # Análisis
 
-Sobre los gráficos bivariados, llama la atención la distribución que tiene la confianza en los medios de comunicación según la posición política de los encuestados ya que, si bien todos los sectores no tienden a superar el nivel 3 de confianza, los encuestados posicionados en tendencias de derecha comienzan la confianza en niveles más altos que el resto, donde además dentro del diagrama de cajas se observa la existencia de datos atípicos posicionados en el nivel de confianza más alto. Esto
+Para mantener un orden dentro de la interpretación de los datos observados, es prudente desglosar los resultados según variables donde, en primer lugar se destaca que la posición ideológica de los encuestados actua de una forma intersante, donde la derecha cuenta con un 13.7%, el centro solo con un 7.4%; la izquierda con un 18.7% y aquellos que deciden no posicionarse en algun sector, representan una mayoría con un 60.13%.
+
+Dentro de la confianza en los medios, se nota que esta es relativamente baja puesto que su mediana es un 2, indicando que más de la mitad de encuestados tiene un muy bajo nivel de confianza en los medios e incluso, su media se posiciona en un 2.26.
+
+Finalmente, la percepción de seguridad en los barrios de residencia es muy distinta, manteniendo una media de 3.53, cifra media alta donde este estadistico junto a la media nos dan cuenta de que efectivamente, la percepcion de seguridad en el barrio mantiene niveles altos.
+
+Sobre los gráficos bivariados, llama la atención la distribución que tiene la confianza en los medios de comunicación según la posición política de los encuestados ya que, si bien todos los sectores no tienden a superar el nivel 3 de confianza, los encuestados posicionados en tendencias de derecha comienzan la confianza en niveles más altos que el resto, donde además dentro del diagrama de cajas se observa la existencia de datos atípicos posicionados en el nivel de confianza más alto.
+
+A manera de cierre se puede establecer que, La orientación política y la confianza en los medios no incide en gran medida para la percepción de seguridad en el barrio, sin embargo, cabe recalcar que este es un análisis simple, se recomendaría hacer uso de otros modelos para profundizar más y llegar a conclusiones significativas.
