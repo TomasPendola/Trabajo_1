@@ -71,6 +71,24 @@ En este caso, se seleccionaron las variables:
 
 -r13_ideol_01: Sector idiologico con el que se identifica el encuestado
 
+```{r, tabla de Datos, echo=FALSE, warning=FALSE, message=FALSE}
+Identificacion <- ELSOC_2022_Limitada %>%
+  summarise(
+    Variable = "r13_ideol_01",  # Aquí agregamos el nombre de la variable
+    media = mean(r13_ideol_01, na.rm = TRUE),
+    mediana = median(r13_ideol_01, na.rm = TRUE),
+    sd = sd(r13_ideol_01, na.rm = TRUE),
+    min = min(r13_ideol_01, na.rm = TRUE),
+    max = max(r13_ideol_01, na.rm = TRUE),
+    n = sum(!is.na(r13_ideol_01))
+  )
+
+
+Identificacion %>%
+  kable(format = "html", caption = "Tabla de Descriptivos para la Identificacion Politica") %>%
+  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover"))
+```
+
 ```{r Operacionlizacion de r13_ideol_01, echo=FALSE, warning=FALSE, message=FALSE}
 
 
@@ -116,6 +134,20 @@ ELSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
 
 frq(ELSOC_2022_Limitada$t10)
 
+Confianza <- ELSOC_2022_Limitada %>%
+  summarise(
+    Variable = "c05_12",  # Aquí agregamos el nombre de la variable
+    media = mean(c05_12, na.rm = TRUE),
+    mediana = median(c05_12, na.rm = TRUE),
+    sd = sd(c05_12, na.rm = TRUE),
+    min = min(c05_12, na.rm = TRUE),
+    max = max(c05_12, na.rm = TRUE),
+    n = sum(!is.na(c05_12))
+  )
+
+Confianza %>%
+  kable(format = "html", caption = "Tabla de Descriptivos para la Confianza en los Medios") %>%
+  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover"))
 ```
 
 -   t10: Percepcion de seguridad del barrio
@@ -129,6 +161,21 @@ ELSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
          t10 = na_if(t10, -666))
 
 frq(ELSOC_2022_Limitada$t10)
+
+Seguridad <- ELSOC_2022_Limitada %>%
+  summarise(
+    Variable = "t10",  # Aquí agregamos el nombre de la variable
+    media = mean(t10, na.rm = TRUE),
+    mediana = median(t10, na.rm = TRUE),
+    sd = sd(t10, na.rm = TRUE),
+    min = min(t10, na.rm = TRUE),
+    max = max(t10, na.rm = TRUE),
+    n = sum(!is.na(t10))
+  )
+
+Seguridad %>%
+  kable(format = "html", caption = "Tabla de Descriptivos para la Percepcion de Seguridad en el Barrio") %>%
+  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover"))
 
 ```
 
