@@ -61,36 +61,13 @@ ELSOC_Long_2016_2023 <- read_dta("C:/Users/Tomás/OneDrive/Documentos/Trabajo_1/
 ELSOC_2022_Limitada <- ELSOC_Long_2016_2023 %>% select(r13_ideol_01, # orientacion politica
                           c05_12, # Confianza en los medios
                           t10) # percecion de Seguridad del barrio
+
+
 ```
 
-Ahora con la base datos abierta procederemos a describr las variables que se usaran para este trabajo
+Ahora con la base datos abierta procederemos a describr las variables que se usaran para este trabajo, se procedera a Opercionalizar las variables
 
-## Descripción de variables
-
-En este caso, se seleccionaron las variables:
-
--r13_ideol_01: Sector idiologico con el que se identifica el encuestado
-
-```{r, tabla de Datos, echo=FALSE, warning=FALSE, message=FALSE}
-Identificacion <- ELSOC_2022_Limitada %>%
-  summarise(
-    Variable = "r13_ideol_01",  # Aquí agregamos el nombre de la variable
-    media = mean(r13_ideol_01, na.rm = TRUE),
-    mediana = median(r13_ideol_01, na.rm = TRUE),
-    sd = sd(r13_ideol_01, na.rm = TRUE),
-    min = min(r13_ideol_01, na.rm = TRUE),
-    max = max(r13_ideol_01, na.rm = TRUE),
-    n = sum(!is.na(r13_ideol_01))
-  )
-
-
-Identificacion %>%
-  kable(format = "html", caption = "Tabla de Descriptivos para la Identificacion Politica") %>%
-  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover"))
-```
-
-```{r Operacionlizacion de r13_ideol_01, echo=FALSE, warning=FALSE, message=FALSE}
-
+```{r Operacionalizacion de Variables, echo=FALSE, warning=FALSE, message=FALSE}
 
 ELSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
   mutate(r13_ideol_01 = na_if(r13_ideol_01, -999),
@@ -98,6 +75,39 @@ ELSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
          r13_ideol_01 = na_if(r13_ideol_01, -777),
          r13_ideol_01 = na_if(r13_ideol_01, -666))
 
+
+ELSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
+  mutate(c05_12 = na_if(c05_12, -999),
+         c05_12 = na_if(c05_12, -888),
+         c05_12 = na_if(c05_12, -777),
+         c05_12 = na_if(c05_12, -666))
+
+
+ELSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
+  mutate(t10 = na_if(t10, -999),
+         t10 = na_if(t10, -888),
+         t10 = na_if(t10, -777),
+         t10 = na_if(t10, -666))
+
+
+```
+
+Se Agrupan los no sabe no responde dentro de los NA y ahora se procederan a ser eliminados
+
+```{r borrar los NA, echo=FALSE, warning=FALSE, message=FALSE}
+
+
+ELSOC_2022_Limitada <-na.omit(ELSOC_2022_Limitada)
+
+```
+
+## Descripción de variables
+
+En este caso, se seleccionaron las variables:
+
+-r13_ideol_01: Sector idiologico con el que se identifica el encuestado
+
+```{r Operacionlizacion de r13_ideol_01, echo=FALSE, warning=FALSE, message=FALSE}
 
 ELSOC_2022_Limitada$r13_ideol_01 <- car::recode(ELSOC_2022_Limitada$r13_ideol_01, "c(1,2)=1; c(3)=2; c(4,5)=3; c(6)=4") #Se recodifica para hacer mas facil analisis estableciendo agrupando Centro derecha y derecha como uno solo, lo mismo para Izquierda, dejadno solos centro y ninguno
 
@@ -124,19 +134,12 @@ tabla %>%
 
 -   c05_12: Grado de Confianza: en los medios de comunicacion tradicionales
 
-```{r Operacionlizacion de c05_12, echo=FALSE, warning=FALSE, message=FALSE}
+```{r Tabla de Confianza en Medios de c05_12, echo=FALSE, warning=FALSE, message=FALSE}
 
-ELSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
-  mutate(c05_12 = na_if(c05_12, -999),
-         c05_12 = na_if(c05_12, -888),
-         c05_12 = na_if(c05_12, -777),
-         c05_12 = na_if(c05_12, -666))
-
-frq(ELSOC_2022_Limitada$t10)
 
 Confianza <- ELSOC_2022_Limitada %>%
   summarise(
-    Variable = "c05_12",  # Aquí agregamos el nombre de la variable
+    Variable = "c05_12", 
     media = mean(c05_12, na.rm = TRUE),
     mediana = median(c05_12, na.rm = TRUE),
     sd = sd(c05_12, na.rm = TRUE),
@@ -152,15 +155,8 @@ Confianza %>%
 
 -   t10: Percepcion de seguridad del barrio
 
-```{r, Operacionlizacion de t10, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, Tabla de Seguridad de t10, echo=FALSE, warning=FALSE, message=FALSE}
 
-ELSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
-  mutate(t10 = na_if(t10, -999),
-         t10 = na_if(t10, -888),
-         t10 = na_if(t10, -777),
-         t10 = na_if(t10, -666))
-
-frq(ELSOC_2022_Limitada$t10)
 
 Seguridad <- ELSOC_2022_Limitada %>%
   summarise(
@@ -179,38 +175,7 @@ Seguridad %>%
 
 ```
 
-igualmente se armara una tabla de descriptivos de las variables lineares
-
-Iniciamos con la Variable de Grao de Confianza en los Medios de Comunicacion
-
-```{r, tabla de descriptivos de variable c05_12, echo=FALSE, warning=FALSE, message=FALSE}
-
-# Tabla de frecuencia para c05_12
-tabla_freq <- ELSOC_2022_Limitada %>%
-  tabyl(c05_12) %>%
-  adorn_pct_formatting(digits = 2)
-
-# Mostrar tabla con formato limpio
-kable(tabla_freq, caption = "Tabla de Frecuencia de Confianza en los Medios de Comunicacion")
-
-
-```
-
-Ahora hacemos lo mismo con la variable de Percepcion de inseguridad en el Barrio
-
-```{r, tabla de descriptivos de variable t10, echo=FALSE, warning=FALSE, message=FALSE}
-
-# Tabla de frecuencia para t10
-tabla_freq2 <- ELSOC_2022_Limitada %>%
-  tabyl(t10) %>%
-  adorn_pct_formatting(digits = 2)
-
-# Mostrar tabla con formato limpio
-kable(tabla_freq2, caption = "Tabla de Frecuencia de Percepcion de Seguridad en el barrio")
-
-
-
-```
+# Graficos
 
 ```{r Grafico n°1 Orientacion politica, echo=FALSE, warning=FALSE, message=FALSE}
 
@@ -259,21 +224,6 @@ ggplot(ELSOC_2022_Limitada, aes(x = as.factor(r13_ideol_01), y = c05_12)) +
     title = "Distribución de Ideologia politica según Cofianza en los medios de comunicacion"
   ) +
   theme_minimal()
-
-```
-
-```{r Grafico n°5 confiaza x perp de confiaza en el barrrio,echo=FALSE, warning=FALSE, message=FALSE}
-
-ggplot(ELSOC_2022_Limitada, aes(x = c05_12, y = t10)) +
-  geom_point(alpha = 0.5) +
-  geom_smooth(method = "lm", se = FALSE, color = "red") +
-  labs(
-    x = "Cofianza en los medios de comunicacion tradiconales",
-    y = "Percepcion de seguridad en el barrio",
-    title = "Relación entre Confianza en los medios y Percepcion de seguiridad en el barrio"
-  ) +
-  theme_minimal()
-
 
 ```
 

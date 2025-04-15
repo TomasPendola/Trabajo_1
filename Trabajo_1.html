@@ -8,7 +8,7 @@
 
 <meta name="author" content="Tomás Péndola y Erick Quezada">
 
-<title>Percpecion de Inseguridad Segun Orientacion Politica</title>
+<title>Percepcion de Inseguridad Segun Orientacion Politica</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -50,7 +50,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Percpecion de Inseguridad Segun Orientacion Politica</h1>
+<h1 class="title">Percepcion de Inseguridad Segun Orientacion Politica</h1>
 <p class="subtitle lead">R para el análisis de datos</p>
 </div>
 
@@ -82,16 +82,25 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="introducción" class="level1">
 <h1>Introducción</h1>
-<p>En el presente trabajo se buscara analizar la percepción de inseguridad según la orientación política con la confianza en los medios, en el clima actual político Chileno donde la polarización aumenta más con los candidatos a presidente en futuras elecciones en una especie de precampaña muchos usan el tema de la seguridad como un elemento que debe atenderse con severidad y con celeridad, creemos que es importante preguntarse ¿Qué tanto incide en el percepciones de inseguridad según la orientación política y la confianza en los medios?</p>
-<p>Para este caso, se usaran datos extraidas de la base de datos del ELSOC de la ola del</p>
-<p>(Falta Ingresar Citas)</p>
+<p>En el contexto actual chileno, donde nos acercamos a las próximas elecciones presidenciales, se han intensificado los discursos mediáticos por parte de los distintos sectores políticos que buscan llegar al sillón presidencial en 2026. Múltiples debates, entrevistas y comentarios han comenzado a circular entre la población chilena, abordando tópicos troncales en las futuras agendas y dejando entrever distintas posturas ideológicas y pragmáticas frente a ellos.</p>
+<p>En este escenario, decidimos investigar una de las mayores preocupaciones de la ciudadanía. Tal como indica el estudio <em>Preocupaciones del Mundo</em> de la empresa de investigación Ipsos (2024), el sondeo arrojó que en Chile el tema del crimen y la violencia lidera la lista de preocupaciones con un 69%.</p>
+<p>Chile lleva tiempo enfrentando un drama importante en torno a este tópico, lo que se refleja en la amplia literatura existente, especialmente desde enfoques que lo abordan mediante variables sociodemográficas. Sin embargo, retomando el actual contexto electoral, nos interesa en particular analizar la incidencia de los medios de comunicación tradicionales, los cuales se encargan de divulgar las agendas de los candidatos y que, estos no solo informan sino que también ayudan a construir marcos interpretativos de la realidad desde una posicion aventajada (Van Djik, 2016). Al mismo tiempo, buscamos entender cómo se articula esta percepción de inseguridad en relación con la tendencia política de la ciudadanía.</p>
+<p>Al respecto, autores como Medina (2003) han señalado que aparentemente existe una relación directa entre poseer una posición más de derecha y el miedo al delito (p.&nbsp;11). Sin embargo, esta relación no implica necesariamente una causalidad, sino que podría estar enmarcada en un concepto más complejo de “percepción emocional”. Tal como indican Muratori y Zubieta (2015), la tendencia política influye en un conjunto de percepciones que terminan delegando en “problemáticas de relevancia social, como la inseguridad y el miedo al delito” (p.&nbsp;17).</p>
+<p>Es por ello que el presente trabajo buscará analizar la percepción de inseguridad según la orientación política y la confianza en los medios. Esto, enmarcado en el clima político actual chileno, donde la polarización entre los sectores políticos aumenta de cara a las próximas elecciones presidenciales. Por otro lado, en esta suerte de precampaña, muchos discursos mediáticos ofrecidos por los candidatos han puesto especial foco en el tema de la seguridad, presentándolo como un asunto que debe ser atendido cuanto antes. Consideramos, entonces, relevante comprender qué tanto inciden en la percepción de inseguridad variables como la orientación política y la confianza en los medios de comunicación, ya que planteamos como hipótesis que aquellos encuestados con una mayor tendencia política hacia la derecha y con niveles más altos de confianza en los medios tenderán a mantener mayores niveles de percepción de inseguridad.</p>
+<p>Para ello, se analizarán los datos recogidos por el COES a través de su estudio ELSOC del año 2023, centrando el análisis en las variables de “Orientación política”, “Confianza en los medios” y “Percepción de seguridad del barrio”. La elección de esta base responde a su carácter representativo a nivel nacional y a su solidez metodológica, lo que permite explorar con mayor profundidad las relaciones entre posicionamiento político, confianza institucional y percepciones subjetivas de inseguridad.</p>
 </section>
 <section id="variables" class="level1">
 <h1>Variables</h1>
-<p>En esta caso se usaran las variables orientacion politica (R13_ideol_01), confianza en medios (c05_12) y percecion de Seguridad del barrio (t10)</p>
-<p>Pero primero debemos cargar tanto los paquetes de los cuales aremos uso junto</p>
+<p>Como se mencionó anteriormente, las variables a utilizar serán las siguientes:</p>
+<ol type="1">
+<li>Posición Política (r13_ideol_01)</li>
+<li>Confianza en los medios de comunicación tradicionales (c05_12)</li>
+<li>Percepción de inseguridad en el barrio de residencia (t10_p).</li>
+</ol>
+<p>Para efectos prácticos, se modificaron las categorias de respuesta de la variable r13_ideol_01 en (Derecha, Centro, Izquierda, Ningúno).</p>
 <p>Esto lo podemos repetir para la carga de la base de datos y el procesamiento de los datos.</p>
-<p>Ahora con la base datos abierta procederemos a describr las variables que se usaran para este trabajo</p>
+<p>Ahora con la base datos abierta procederemos a describr las variables que se usaran para este trabajo, se procedera a Opercionalizar las variables</p>
+<p>Se Agrupan los no sabe no responde dentro de los NA y ahora se procederan a ser eliminados</p>
 <section id="descripción-de-variables" class="level2">
 <h2 class="anchored" data-anchor-id="descripción-de-variables">Descripción de variables</h2>
 <p>En este caso, se seleccionaron las variables:</p>
@@ -112,28 +121,23 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Derecha</td>
-<td style="text-align: right;">783</td>
-<td style="text-align: right;">3.77</td>
+<td style="text-align: right;">530</td>
+<td style="text-align: right;">13.77</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Centro</td>
-<td style="text-align: right;">386</td>
-<td style="text-align: right;">1.86</td>
+<td style="text-align: right;">285</td>
+<td style="text-align: right;">7.40</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Izquierda</td>
-<td style="text-align: right;">1022</td>
-<td style="text-align: right;">4.92</td>
+<td style="text-align: right;">720</td>
+<td style="text-align: right;">18.70</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Ninguno</td>
-<td style="text-align: right;">3819</td>
-<td style="text-align: right;">18.40</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">NA</td>
-<td style="text-align: right;">14751</td>
-<td style="text-align: right;">71.05</td>
+<td style="text-align: right;">2315</td>
+<td style="text-align: right;">60.13</td>
 </tr>
 </tbody>
 </table>
@@ -146,155 +150,74 @@ ul.task-list li input[type="checkbox"] {
 <li>c05_12: Grado de Confianza: en los medios de comunicacion tradicionales</li>
 </ul>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>Percepcion de seguridad del barrio (x) &lt;numeric&gt; 
-# total N=20761 valid N=19602 mean=1.94 sd=36.86
+<div class="cell-output-display">
+<table class="table table-striped table-hover caption-top table-sm small" data-quarto-postprocess="true">
+<caption>Tabla de Descriptivos para la Confianza en los Medios</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Variable</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">media</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">mediana</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">sd</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">min</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">max</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">c05_12</td>
+<td style="text-align: right;">2.26026</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.0549</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">3850</td>
+</tr>
+</tbody>
+</table>
 
-Value |                                 Label |    N | Raw % | Valid % | Cum. %
--------------------------------------------------------------------------------
- -999 |                           No Responde |   11 |  0.05 |    0.06 |   0.06
- -888 |                               No Sabe |   14 |  0.07 |    0.07 |   0.13
- -777 |       Valor perdido por error tecnico |    0 |  0.00 |    0.00 |   0.13
- -666 | Valor perdido por encuesta incompleta |   10 |  0.05 |    0.05 |   0.18
-    1 |                          Muy inseguro |  919 |  4.43 |    4.69 |   4.87
-    2 |                              Inseguro | 2919 | 14.06 |   14.89 |  19.76
-    3 |                 Ni seguro ni inseguro | 3843 | 18.51 |   19.61 |  39.36
-    4 |                                Seguro | 9696 | 46.70 |   49.46 |  88.83
-    5 |                            Muy seguro | 2190 | 10.55 |   11.17 | 100.00
- &lt;NA&gt; |                                  &lt;NA&gt; | 1159 |  5.58 |    &lt;NA&gt; |   &lt;NA&gt;</code></pre>
+
 </div>
 </div>
 <ul>
 <li>t10: Percepcion de seguridad del barrio</li>
 </ul>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>Percepcion de seguridad del barrio (x) &lt;numeric&gt; 
-# total N=20761 valid N=19567 mean=3.48 sd=1.03
+<div class="cell-output-display">
+<table class="table table-striped table-hover caption-top table-sm small" data-quarto-postprocess="true">
+<caption>Tabla de Descriptivos para la Percepcion de Seguridad en el Barrio</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Variable</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">media</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">mediana</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">sd</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">min</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">max</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">t10</td>
+<td style="text-align: right;">3.531948</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1.008739</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">3850</td>
+</tr>
+</tbody>
+</table>
 
-Value |                                 Label |    N | Raw % | Valid % | Cum. %
--------------------------------------------------------------------------------
- -999 |                           No Responde |    0 |  0.00 |    0.00 |   0.00
- -888 |                               No Sabe |    0 |  0.00 |    0.00 |   0.00
- -777 |       Valor perdido por error tecnico |    0 |  0.00 |    0.00 |   0.00
- -666 | Valor perdido por encuesta incompleta |    0 |  0.00 |    0.00 |   0.00
-    1 |                          Muy inseguro |  919 |  4.43 |    4.70 |   4.70
-    2 |                              Inseguro | 2919 | 14.06 |   14.92 |  19.61
-    3 |                 Ni seguro ni inseguro | 3843 | 18.51 |   19.64 |  39.25
-    4 |                                Seguro | 9696 | 46.70 |   49.55 |  88.81
-    5 |                            Muy seguro | 2190 | 10.55 |   11.19 | 100.00
- &lt;NA&gt; |                                  &lt;NA&gt; | 1194 |  5.75 |    &lt;NA&gt; |   &lt;NA&gt;</code></pre>
+
 </div>
 </div>
-<p>igualmente se armara una tabla de descriptivos de las variables lineares</p>
-<p>Iniciamos con la Variable de Grao de Confianza en los Medios de Comunicacion</p>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>Tabla de Frecuencia de Confianza en los Medios de Comunicacion</caption>
-<thead>
-<tr class="header">
-<th style="text-align: right;">c05_12</th>
-<th style="text-align: right;">n</th>
-<th style="text-align: left;">percent</th>
-<th style="text-align: left;">valid_percent</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1350</td>
-<td style="text-align: left;">6.50%</td>
-<td style="text-align: left;">27.51%</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">1462</td>
-<td style="text-align: left;">7.04%</td>
-<td style="text-align: left;">29.79%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">1480</td>
-<td style="text-align: left;">7.13%</td>
-<td style="text-align: left;">30.16%</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">470</td>
-<td style="text-align: left;">2.26%</td>
-<td style="text-align: left;">9.58%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">145</td>
-<td style="text-align: left;">0.70%</td>
-<td style="text-align: left;">2.95%</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">15854</td>
-<td style="text-align: left;">76.36%</td>
-<td style="text-align: left;">-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>Ahora hacemos lo mismo con la variable de Percepcion de inseguridad en el Barrio</p>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>Tabla de Frecuencia de Percepcion de Seguridad en el barrio</caption>
-<thead>
-<tr class="header">
-<th style="text-align: right;">t10</th>
-<th style="text-align: right;">n</th>
-<th style="text-align: left;">percent</th>
-<th style="text-align: left;">valid_percent</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">919</td>
-<td style="text-align: left;">4.43%</td>
-<td style="text-align: left;">4.70%</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2919</td>
-<td style="text-align: left;">14.06%</td>
-<td style="text-align: left;">14.92%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">3843</td>
-<td style="text-align: left;">18.51%</td>
-<td style="text-align: left;">19.64%</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">9696</td>
-<td style="text-align: left;">46.70%</td>
-<td style="text-align: left;">49.55%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">2190</td>
-<td style="text-align: left;">10.55%</td>
-<td style="text-align: left;">11.19%</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">1194</td>
-<td style="text-align: left;">5.75%</td>
-<td style="text-align: left;">-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+</section>
+</section>
+<section id="graficos" class="level1">
+<h1>Graficos</h1>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -331,19 +254,10 @@ Value |                                 Label |    N | Raw % | Valid % | Cum. %
 </div>
 </div>
 </div>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Trabajo_1_files/figure-html/Grafico%20n°5%20confiaza%20x%20perp%20de%20confiaza%20en%20el%20barrrio-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
 </section>
 <section id="análisis" class="level1">
 <h1>Análisis</h1>
+<p>Sobre los gráficos bivariados, llama la atención la distribución que tiene la confianza en los medios de comunicación según la posición política de los encuestados ya que, si bien todos los sectores no tienden a superar el nivel 3 de confianza, los encuestados posicionados en tendencias de derecha comienzan la confianza en niveles más altos que el resto, donde además dentro del diagrama de cajas se observa la existencia de datos atípicos posicionados en el nivel de confianza más alto. Esto</p>
 </section>
 
 </main>
