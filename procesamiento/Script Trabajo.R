@@ -44,6 +44,63 @@ ELSOC_2022_Limitada$r13_ideol_01 <- factor(ELSOC_2022_Limitada$r13_ideol_01,
 
 
 
+
+
+
+
+
+Identificacion <- ELSOC_2022_Limitada %>%
+  summarise(
+    Variable = "r13_ideol_01",  # Aquí agregamos el nombre de la variable
+    media = mean(r13_ideol_01, na.rm = TRUE),
+    mediana = median(r13_ideol_01, na.rm = TRUE),
+    sd = sd(r13_ideol_01, na.rm = TRUE),
+    min = min(r13_ideol_01, na.rm = TRUE),
+    max = max(r13_ideol_01, na.rm = TRUE),
+    n = sum(!is.na(r13_ideol_01))
+  )
+
+
+Identificacion %>%
+  kable(format = "html", caption = "Tabla de Descriptivos para la Identificacion Politica") %>%
+  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover"))
+
+
+
+Seguridad <- ELSOC_2022_Limitada %>%
+  summarise(
+    Variable = "t10",  # Aquí agregamos el nombre de la variable
+    media = mean(t10, na.rm = TRUE),
+    mediana = median(t10, na.rm = TRUE),
+    sd = sd(t10, na.rm = TRUE),
+    min = min(t10, na.rm = TRUE),
+    max = max(t10, na.rm = TRUE),
+    n = sum(!is.na(t10))
+  )
+
+Seguridad %>%
+  kable(format = "html", caption = "Tabla de Descriptivos para la Percepcion de Seguridad en el Barrio") %>%
+  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover"))
+
+
+
+Confianza <- ELSOC_2022_Limitada %>%
+  summarise(
+    Variable = "c05_12",  # Aquí agregamos el nombre de la variable
+    media = mean(c05_12, na.rm = TRUE),
+    mediana = median(c05_12, na.rm = TRUE),
+    sd = sd(c05_12, na.rm = TRUE),
+    min = min(c05_12, na.rm = TRUE),
+    max = max(c05_12, na.rm = TRUE),
+    n = sum(!is.na(c05_12))
+  )
+
+Confianza %>%
+  kable(format = "html", caption = "Tabla de Descriptivos para la Confianza en los Medios") %>%
+  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover"))
+
+
+
 tabla <- ELSOC_2022_Limitada %>%
   count(r13_ideol_01) %>%
   mutate(Porcentaje = round(100 * n / sum(n), 2))
@@ -65,14 +122,13 @@ frq(ELSOC_2022_Limitada$t10)
 
 
 
-LSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
+ELSOC_2022_Limitada <- ELSOC_2022_Limitada %>%
   mutate(t10 = na_if(t10, -999),
          t10 = na_if(t10, -888),
          t10 = na_if(t10, -777),
          t10 = na_if(t10, -666))
 
 frq(ELSOC_2022_Limitada$t10)
-
 
 
 # Tabla de frecuencia para c05_12
